@@ -1,0 +1,9 @@
+server:
+    port: 9090
+logging:
+    level:
+        com.spring.reporting: DEBUG
+    filename : spring-spring-app-log-file.log
+    pattern:
+        file: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+        console: "%d %-5level %logger : %msg%n"
