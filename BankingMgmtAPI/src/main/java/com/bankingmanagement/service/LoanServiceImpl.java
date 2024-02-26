@@ -42,7 +42,8 @@ public class LoanServiceImpl implements LoanService{
                 BranchDTO branchDTO = new BranchDTO();
                 branchDTO.setBranchName(loandBranch.getBranchName());
                 branchDTO.setBranchAddress(loandBranch.getBranchAddress());
-                branchDTO.setBankName(loandBranch.getBank().getBankName());
+                if(loandBranch.getBank()!=null)
+                    branchDTO.setBankName(loandBranch.getBank().getBankName());
                 loanDTO.setBranchDTO(branchDTO);
             }
             Customer loanCustomer = loan.getCustomer();
@@ -62,7 +63,7 @@ public class LoanServiceImpl implements LoanService{
 
     @Override
     public List<LoanDTO> findAllByLoanType(String type) throws LoanNotFoundException {
-        List<Loan> loans = loanRepository.findAllByLoanType(type);
+        List<Loan> loans = loanRepository.findByLoanType(type);
         if(loans.isEmpty())
             throw new LoanNotFoundException("No loan found for this type in DB");
         List<LoanDTO> loanDTOS = loans.stream().map(loan -> {
@@ -70,9 +71,16 @@ public class LoanServiceImpl implements LoanService{
             loanDTO.setLoanType(loan.getLoanType());
             loanDTO.setLoanAmount(loan.getLoanAmount());
             Branch loanBranch = loan.getBranch();
-            BranchDTO branchDTO= new BranchDTO(loanBranch.getBranchName(),loanBranch.getBranchAddress(),loanBranch.getBank().getBankName());
-            loanDTO.setBranchDTO(branchDTO);
 
+            if(loanBranch!=null) {
+                BranchDTO branchDTO = new BranchDTO();
+                branchDTO.setBranchName(loanBranch.getBranchName());
+                branchDTO.setBranchAddress(loanBranch.getBranchAddress());
+                if(loanBranch.getBank()!=null)
+                    branchDTO.setBankName(loanBranch.getBank().getBankName());
+                loanDTO.setBranchDTO(branchDTO);
+            }
+            //BranchDTO branchDTO= new BranchDTO(loanBranch.getBranchName(),loanBranch.getBranchAddress(),loanBranch.getBank().getBankName());
             return loanDTO;
 
         }).collect(Collectors.toList());

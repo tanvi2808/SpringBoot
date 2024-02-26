@@ -1,5 +1,5 @@
 server:
-    port: 9090
+    port: 9091
 logging:
     level:
         com.spring.reporting: DEBUG
@@ -7,3 +7,5 @@ logging:
     pattern:
         file: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
         console: "%d %-5level %logger : %msg%n"
+bank:
+    url: http://localhost:9090/api/v1/banks

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface LoanRepository extends JpaRepository<Loan, Integer> {
-    List<Loan> findAllByLoanType(String type);
+    List<Loan> findByLoanType(String type);
 
 
 }

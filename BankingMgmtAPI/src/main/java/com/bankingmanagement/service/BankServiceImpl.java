@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -30,6 +31,7 @@ public class BankServiceImpl implements BankService {
     BankRepository bankRepository;
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public List<BankDTO> findAllBanks() throws BankNotFoundException {
         log.info("Inside BankService Implementation");
         List<Bank> banks = bankRepository.findAll();
@@ -64,8 +66,6 @@ public class BankServiceImpl implements BankService {
     @Override
     public BankDTO findBankById(int id) throws BankNotFoundException, InterruptedException {
 
-        Thread.sleep(6000);
-
         Optional<Bank> optionalBank = bankRepository.findById(id);
         if(optionalBank.isEmpty()){
             log.error("No details found for bank with code : " + id);
@@ -94,7 +94,6 @@ public class BankServiceImpl implements BankService {
 
     public BankDTO findByBankName(String name) throws BankNotFoundException, InterruptedException {
 
-        Thread.sleep(6000);
         Optional<Bank> optionalBank = bankRepository.findByBankName(name);
         if(optionalBank.isEmpty()){
             log.error("No details found for bank with code : " + name);

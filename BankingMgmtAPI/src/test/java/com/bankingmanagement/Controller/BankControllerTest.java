@@ -247,6 +247,7 @@ public class BankControllerTest {
 
     @Test
     public void deleteBank_whenValidBankId_thenDeleteBank() throws Exception {
+
         when(bankService.deleteBank(anyInt())).thenReturn("Deleted Successfully");
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
@@ -258,6 +259,7 @@ public class BankControllerTest {
 
     @Test
     public void deleteBank_whenInvalidBankId_thenReturnNotFound() throws Exception {
+
         when(bankService.deleteBank(anyInt())).thenThrow(new BankNotFoundException());
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders

@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -36,7 +37,11 @@ public class BankController {
         List<BankDTO> bankDTOs = null;
         try {
             bankDTOs = bankService.findAllBanks();
-        }catch(BankNotFoundException bnfe){
+        }catch(AccessDeniedException ade) {
+            log.error("Permission Denied");
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        catch(BankNotFoundException bnfe){
             log.error("No Bank found in database");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }catch(Exception e1){

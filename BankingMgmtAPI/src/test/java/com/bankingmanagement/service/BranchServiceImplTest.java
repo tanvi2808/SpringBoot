@@ -175,4 +175,13 @@ public class BranchServiceImplTest {
       branchService.deleteBranch(234);
       verify(branchRepository,timeout(1)).delete(any());
     }
+
+    @Test
+    public void deletBranchByBranchName_whenBranchExists_thenVerfiyDeleteCall() throws BranchNotFoundException{
+
+        doNothing().when(branchRepository).deleteByBranchName(anyString());
+        when(branchRepository.findByBranchName(anyString())).thenReturn(Optional.of(createBranch()));
+        branchService.deleteBranchByName("Test");
+        verify(branchRepository,timeout(1)).deleteByBranchName(any());
+    }
 }
