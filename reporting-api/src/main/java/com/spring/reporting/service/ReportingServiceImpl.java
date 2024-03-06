@@ -2,15 +2,13 @@ package com.spring.reporting.service;
 
 import com.spring.reporting.exception.BankNotFoundException;
 import com.spring.reporting.model.BankDTO;
-
 import com.spring.reporting.model.BankRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientException;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -19,16 +17,26 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
 @Service
+
 public class ReportingServiceImpl {
 
     @Value("${bank.url}")
     String bankUrl;
 
+    @Autowired
+   WebClient.Builder webClientBuilder;
 
+
+
+   // @LoadBalanced
     public List<BankDTO> getAllBanks() throws BankNotFoundException {
 
         log.info("Inside Reporting API Service : getAllBanks");
-        WebClient webClient = WebClient.create(bankUrl);
+        WebClient webClient = webClientBuilder.baseUrl(bankUrl)
+        //WebClient webClient = webClientBuilder.baseUrl("http://localhost:9094/api/v1/banks")
+                .defaultHeaders(header -> header.setBasicAuth("admin", "password"))
+                .build();
+
 
         Flux<BankDTO> bankDTOFlux = webClient.get().retrieve().bodyToFlux(BankDTO.class);
         List<BankDTO> bankDTOS = bankDTOFlux.collectList().block();

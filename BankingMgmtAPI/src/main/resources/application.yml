@@ -1,5 +1,5 @@
 server:
-  port: 9090
+  port: 9094
 management:
   endpoints:
     web:
@@ -9,10 +9,23 @@ management:
     health:
       show-details: always
 spring:
-    datasource:
-      url: jdbc:mysql://localhost:3306/bankingDB
-      username: root
-      password: Tanvi@2808
-      driver-class-name: com.mysql.cj.jdbc.Driver
-    jpa:
-      show-sql: true
+  application:
+    name: banking-management-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/bankingDB
+    username: root
+    password: Tanvi@2808
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+  security:
+    user:
+      name: tanvi
+      password: test123
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9098/eureka/
+

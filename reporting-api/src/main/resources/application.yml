@@ -1,5 +1,5 @@
 server:
-    port: 9091
+    port: 9095
 logging:
     level:
         com.spring.reporting: DEBUG
@@ -7,5 +7,34 @@ logging:
     pattern:
         file: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
         console: "%d %-5level %logger : %msg%n"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info,health,metrics,loggers,beans,mappings,threaddump,env,caches
+  endpoint:
+    health:
+      show-details: always
 bank:
-    url: http://localhost:9090/api/v1/banks
+    url: http://banking-management-service/api/v1/banks
+spring:
+  application:
+    name: reporting-service
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9098/eureka
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+
+

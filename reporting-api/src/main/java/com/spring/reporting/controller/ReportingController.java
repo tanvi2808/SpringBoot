@@ -16,6 +16,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/bankReporting")
+
 public class ReportingController {
 
     @Autowired
@@ -32,7 +33,7 @@ public class ReportingController {
             log.error("No Bank found in the DB");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }catch(Exception e){
-            log.error("Internal Server Error");
+            log.error("Internal Server Error" + e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 

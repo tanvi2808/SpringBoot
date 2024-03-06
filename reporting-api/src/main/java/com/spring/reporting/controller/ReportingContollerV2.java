@@ -3,16 +3,13 @@ package com.spring.reporting.controller;
 import com.spring.reporting.exception.BankNotFoundException;
 import com.spring.reporting.model.BankDTO;
 import com.spring.reporting.model.BankRequest;
-import com.spring.reporting.service.ReportingServiceImpl;
 import com.spring.reporting.service.ReportingServiceImplV2;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.retry.annotation.CircuitBreaker;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -25,6 +22,7 @@ public class ReportingContollerV2 {
     ReportingServiceImplV2 reportingService;
 
     @GetMapping
+    @CircuitBreaker()
     public ResponseEntity<List<BankDTO>> getAllBanks(){
 
         log.info("Inside Reporting Controller 2 : getAllBanks");

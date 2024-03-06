@@ -3,16 +3,14 @@ package com.spring.reporting.service;
 import com.spring.reporting.exception.BankNotFoundException;
 import com.spring.reporting.model.BankDTO;
 import com.spring.reporting.model.BankRequest;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.actuate.autoconfigure.wavefront.WavefrontProperties;
-import org.springframework.http.*;
-import org.springframework.http.client.ClientHttpRequest;
-import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.retry.annotation.Recover;
@@ -20,13 +18,9 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -46,13 +40,12 @@ public class ReportingServiceImplV2 {
 //    }
     private HttpHeaders httpHeaders(){
         HttpHeaders headers = new HttpHeaders();
-        headers.setBasicAuth("user","password");
+        headers.setBasicAuth("admin","password");
       //  headers.add("Authorization", "Basic "+credentials());
         return headers;
     }
 
     @Retryable(value={Exception.class}, maxAttempts = 5, backoff = @Backoff(delay = 5000))
-    @
     public List<BankDTO> getAllBanks() throws URISyntaxException, BankNotFoundException {
         log.info("Inside Reporting Service v2 : getAllBanks ");
         URI uri = new URI(bankUrl);

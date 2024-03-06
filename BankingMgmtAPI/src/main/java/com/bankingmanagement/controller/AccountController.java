@@ -4,13 +4,10 @@ package com.bankingmanagement.controller;
 import com.bankingmanagement.exceptions.AccountNotFoundException;
 import com.bankingmanagement.model.AccountDTO;
 import com.bankingmanagement.model.AccountRequest;
-import com.bankingmanagement.repository.AccountRepository;
 import com.bankingmanagement.service.AccountService;
 import jakarta.validation.Valid;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +24,7 @@ public class AccountController {
 
     @GetMapping
     public ResponseEntity<List<AccountDTO>> findAllAccounts(){
+
         List<AccountDTO> accountDTOS = null;
         try {
             log.info("Inside Account Controller : findAllAccounts");

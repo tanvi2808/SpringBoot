@@ -6,7 +6,6 @@ import com.bankingmanagement.entity.Customer;
 import com.bankingmanagement.exceptions.AccountNotFoundException;
 import com.bankingmanagement.model.AccountDTO;
 import com.bankingmanagement.model.AccountRequest;
-import com.bankingmanagement.model.CustomerDTO;
 import com.bankingmanagement.repository.AccountRepository;
 import com.bankingmanagement.repository.BranchRepository;
 import com.bankingmanagement.repository.CustomerRepository;
