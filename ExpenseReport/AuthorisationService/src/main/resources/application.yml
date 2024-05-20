@@ -1,0 +1,15 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: authorisationservice
+  datasource:
+    url: jdbc:mysql://localhost:3306/expenseDB
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: Tanvi@2808
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
